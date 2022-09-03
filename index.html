@@ -16,6 +16,8 @@
             padding: 15px;
             min-height: 24px;
             margin: 0px auto;
+     
+
         }
         #text-input {
             width: 75%;
@@ -55,9 +57,11 @@
             border-radius: 10px;
             font-family: courier;
         }
-        </style>
+        </style>        
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
+        
         <div class="settings-form">
             <form id="settings-form">
                 <p><strong>API Token:</strong></p>
@@ -129,6 +133,7 @@
                 e.preventDefault()
                 sendMessage(document.querySelector('#text-input').value)
             })
+        
         </script>
     </body>
 </html>
