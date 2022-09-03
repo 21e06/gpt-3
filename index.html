@@ -1,0 +1,134 @@
+<html>
+    <head>
+        <title>GPT-3 Talk</title>
+        <style type="text/css">
+        body {
+            font-family: arial;
+        }
+        #conversation {
+            padding: 25px;
+        }
+        #conversation-footer {
+            margin-top: 10px;
+        }
+        #conversation-body {
+            width: 90%;
+            padding: 15px;
+            min-height: 24px;
+            margin: 0px auto;
+        }
+        #text-input {
+            width: 75%;
+            margin: 10px auto;
+            font-family: arial;
+            font-size: 24px;
+        }
+        input {
+            width: 75%;
+            font-size: 16px;
+            padding: 10px;
+            border-radius: 15px;
+            margin: 0px auto;
+        }
+        button {
+            font-size: 32px;
+        }
+        .dialogue-message-yours {
+            margin-top: 2px;
+            width: 200px;
+            min-height: 64px;
+            border: 1px solid #000;
+            padding: 25px;
+            float: left;
+            background-color: #DDD;
+            border-radius: 10px;
+            font-family: courier;
+        }
+
+        .dialogue-message-gpt3 {
+            margin-top: 2px;
+            width: 200px;
+            float: right;
+            border: 1px solid #000;
+            padding: 15px;
+            background-color: #8D9;
+            border-radius: 10px;
+            font-family: courier;
+        }
+        </style>
+    </head>
+    <body>
+        <div class="settings-form">
+            <form id="settings-form">
+                <p><strong>API Token:</strong></p>
+                <p>
+                    <input type="password" name="token" id="token" placeholder="Your OpenAI API Token"/>
+                </p>
+            </form>
+        </div>
+        <hr/>
+        <div id="conversation">
+            <div id="conversation-body">
+            </div>
+            
+        <div id="conversation-footer">
+            <form id="prompt-form">
+                <p><textarea id="text-input" placeholder="Enter prompt"></textarea></p>
+                <p><button id="send-button">Send</button></p>
+            </form>
+        </div>
+    </div>
+        <script type="text/javascript">
+            const token = localStorage.getItem('apiToken')
+            if (token != undefined && token != "") {
+                document.querySelector('#token').value = token
+            }
+    
+            function sendMessage(msg) {
+                window.scrollTo(0, document.body.scrollHeight);
+                const apiToken = document.querySelector('#token').value
+                if (apiToken) {
+                    localStorage.setItem('apiToken', apiToken)
+                }
+                document.querySelector('#conversation-body').innerHTML += `
+                    <div class="dialogue-message-yours">
+                        <p>${msg}</p>
+                    </div>
+                    <div style="clear: both;"></div>
+                `
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", "https://api.openai.com/v1/engines/text-davinci-002/completions", true);
+                xhr.setRequestHeader('Content-Type', 'application/json');
+                xhr.setRequestHeader('Authorization',  `Bearer ${apiToken}`);
+                xhr.send(JSON.stringify({
+                    prompt: msg,
+                    max_tokens: 3500,
+                    temperature: 1
+                }));
+                xhr.onload = function() {
+                    let data = JSON.parse(this.responseText)
+                 
+                    console.log(data.choices)
+                    document.querySelector('#conversation-body').innerHTML += `
+                        <div class="dialogue-message-gpt3">
+                            <p>${data.choices[0].text.replace(/\n\n/g, "<br/>").replace(/\n/g, "<br/><br/>").replace(/\r\r/g, "<br/>")}</p>
+                        </div>
+                        <div style="clear: both;"></div>
+                    `                
+                }
+                document.querySelector('#text-input').value = ""
+                window.scrollTo(0, document.body.scrollHeight);
+            }
+
+            document.querySelector('#prompt-form').addEventListener("submit", (e) => {
+                e.preventDefault()
+                sendMessage(document.querySelector('#text-input').value)
+            })
+
+            document.querySelector('#send-button').addEventListener("click", (e) => {
+                e.preventDefault()
+                sendMessage(document.querySelector('#text-input').value)
+            })
+        </script>
+    </body>
+</html>
