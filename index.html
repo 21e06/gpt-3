@@ -51,6 +51,18 @@
             font-family: courier;
         }
 
+        .dialogue-message-error {
+            background-color: #D77;
+            margin-top: 15px;
+            width: 200px;
+            min-height: 64px;
+            border: 1px solid #A44;
+            padding: 25px;
+            float: left;
+            font-family: courier;
+            font-weight: bold;
+        }
+
         .dialogue-message-gpt3 {
             margin-top: 15px;
             width: 200px;
@@ -112,14 +124,40 @@
                     max_tokens: 3500,
                     temperature: 1
                 }));
+                xhr.onerror = function() {
+                    document.querySelector('#conversation-body').innerHTML += `
+                            <div class="dialogue-message-error">
+                                <p>Something went wrong. Try your prompt again.</p>
+                            </div>
+                            <div style="clear: both;"></div>
+                        `
+                }
+                xhr.onabort = function() {
+                    document.querySelector('#conversation-body').innerHTML += `
+                            <div class="dialogue-message-error">
+                                <p>Something went wrong. Try your prompt again.</p>
+                            </div>
+                            <div style="clear: both;"></div>
+                        `
+                }
+                
                 xhr.onload = function() {
                     let data = JSON.parse(this.responseText)
-                    document.querySelector('#conversation-body').innerHTML += `
-                        <div class="dialogue-message-gpt3">
-                            <p>${data.choices[0].text.trim().replace(/\n\n/g, "<br/><br/>").replace(/\n/g, "<br/><br/>").replace(/\r\r/g, "<br/>")}</p>
-                        </div>
-                        <div style="clear: both;"></div>
-                    `                
+                    if (xhr.status != 200) {
+                        document.querySelector('#conversation-body').innerHTML += `
+                            <div class="dialogue-message-error">
+                                <p>Something went wrong. Try your prompt again.</p>
+                            </div>
+                            <div style="clear: both;"></div>
+                        `
+                    } else {
+                        document.querySelector('#conversation-body').innerHTML += `
+                            <div class="dialogue-message-gpt3">
+                                <p>${data.choices[0].text.trim().replace(/\n\n/g, "<br/><br/>").replace(/\n/g, "<br/><br/>").replace(/\r\r/g, "<br/>")}</p>
+                            </div>
+                            <div style="clear: both;"></div>
+                        `
+                    }         
                 }
                 document.querySelector('#text-input').value = ""
                 window.scrollTo(0, document.body.scrollHeight);
