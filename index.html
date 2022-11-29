@@ -126,7 +126,9 @@
                 xhr.onerror = function() {
                     document.querySelector('#conversation-body').innerHTML += `
                             <div class="dialogue-message-error">
-                                <p>Something went wrong. Try your prompt again.</p>
+                                <p>Something went wrong.</p>
+                                <p><strong>Error:</strong></p>
+                                <p>${JSON.parse(this.response).error.message}</p>
                             </div>
                             <div style="clear: both;"></div>
                         `
@@ -149,6 +151,9 @@
                             </div>
                             <div style="clear: both;"></div>
                         `
+                        if (xhr.status == 401) {
+                          document.querySelector('.settings-form').style.display = 'block'
+                        }
                     } else {
                         document.querySelector('#conversation-body').innerHTML += `
                             <div class="dialogue-message-gpt3">
