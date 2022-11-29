@@ -180,6 +180,13 @@
                 e.preventDefault()
                 sendMessage(document.querySelector('#text-input').value)
             })
+
+            document.querySelector('#token').addEventListener("change", (e) => {
+                const apiToken = document.querySelector('#token')
+                if (apiToken) {
+                    localStorage.setItem('apiToken', apiToken.value)
+                }
+            })
         </script>
     </body>
 </html>
