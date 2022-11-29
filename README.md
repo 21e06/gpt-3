@@ -11,6 +11,8 @@ I made this entirely for myself, so it's meant to be functional, not beautiful. 
 
 Works on mobile.
 
+[Click here to see my other AI tools.](https://somnolentpumpkin.github.io/ai-tools/)
+
 # How to use
 1. Create an account at: [beta.openai.com/signup](https://beta.openai.com/signup)
 2. Generate an [API key](https://beta.openai.com/account/api-keys) and copy it to your clipboard.
