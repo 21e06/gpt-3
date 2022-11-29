@@ -6,18 +6,22 @@
         body {
             font-family: arial;
         }
+
         #conversation {
             padding: 25px;
         }
+
         #conversation-footer {
             margin-top: 10px;
         }
+
         #conversation-body {
             width: 90%;
             padding: 15px;
             min-height: 24px;
             margin: 0px auto;
         }
+
         #text-input {
             width: 75%;
             margin: 10px auto;
@@ -26,35 +30,65 @@
             padding: 10px;
         }
 
+        button {
+            border: 1px solid #bbb;
+            border-radius: 15px;
+            background-color: #fff;
+        }
+
+        button:hover {
+            background-color: #bbb;
+        }
+
         textarea {
             padding: 10px;
         }
+
         input {
             width: 75%;
             font-size: 16px;
             padding: 10px;
             margin: 0px auto;
+            border: 1px solid #bbb;
+            border-radius: 15px;
         }
+
         button {
             font-size: 32px;
             padding: 10px 20px;
         }
+
+        .dialogue-message-header {
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .dialogue-message-body {
+            padding: 10px 35px;
+            font-size: 18px;
+        }
+
         .dialogue-message-yours {
             margin-top: 15px;
-            width: 200px;
+            min-width: 250px;
+            max-width: 50%;
             min-height: 64px;
-
-            padding: 25px;
             float: left;
-            background-color: #DDD;
-            border-radius: 10px;
+            background-color: #9DD;
+            border-radius: 60px;
+            border-bottom-left-radius: 0px;
             font-family: courier;
+        }
+
+        .dialogue-message-yours .dialogue-message-header {
+            border-bottom: 1px solid #7BB;
         }
 
         .dialogue-message-error {
             background-color: #D77;
-            margin-top: 15px;
-            width: 200px;
+            margin-top: 15px auto;
+            min-width: 200px;
+            max-width: 40%;
             min-height: 64px;
             padding: 25px;
             float: left;
@@ -64,17 +98,21 @@
 
         .dialogue-message-gpt3 {
             margin-top: 15px;
-            width: 200px;
+            min-width: 250px;
+            max-width: 50%;
             float: right;
-            padding: 15px;
             background-color: #8D9;
-            border-radius: 10px;
+            border-radius: 60px;
+            border-bottom-right-radius: 0px;
             font-family: courier;
+        }
+
+        .dialogue-message-gpt3 .dialogue-message-header {
+            border-bottom: 1px solid #6B7;
         }
         </style>        
     </head>
     <body>
-        
         <div class="settings-form">
             <form id="settings-form">
                 <p><strong>API Token:</strong></p>
@@ -110,7 +148,14 @@
                 }
                 document.querySelector('#conversation-body').innerHTML += `
                     <div class="dialogue-message-yours">
-                        <p>${msg}</p>
+                        <div class="dialogue-message-header">
+                            <p>YOU</p>
+                        </div>
+                        <div class="dialogue-message-body">
+                            <p>
+                                ${msg}
+                            </p>
+                        </div>
                     </div>
                     <div style="clear: both;"></div>
                 `
@@ -161,7 +206,14 @@
                     } else {
                         document.querySelector('#conversation-body').innerHTML += `
                             <div class="dialogue-message-gpt3">
-                                <p>${data.choices[0].text.trim().replace(/\n\n/g, "<br/><br/>").replace(/\n/g, "<br/><br/>").replace(/\r\r/g, "<br/>")}</p>
+                                <div class="dialogue-message-header">
+                                    <p>GPT-3</p>
+                                </div>
+                                <div class="dialogue-message-body">
+                                    <p>
+                                        ${data.choices[0].text.trim().replace(/\n\n/g, "<br/><br/>").replace(/\n/g, "<br/><br/>").replace(/\r\r/g, "<br/>")}
+                                    </p>
+                                </div>
                             </div>
                             <div style="clear: both;"></div>
                         `
