@@ -129,6 +129,16 @@
             line-height: 2px;
             font-family: verdana;
         }
+
+        .dialogue-message-yours .copy-link {
+            float: left;
+            margin: auto 25px;
+        }
+
+        .dialogue-message-gpt3 .copy-link {
+            float: right;
+            margin: auto 25px;
+        }
         </style>        
     </head>
     <body>
@@ -145,12 +155,22 @@
             <div id="conversation-body"></div>
             <div id="conversation-footer">
                 <form id="prompt-form">
-                    <p><input type="text" id="text-input" placeholder="Enter prompt"/></p>
+                    <p><input type="text" id="text-input" placeholder="Enter prompt" autocomplete="off"></p>
                     <p><button id="send-button">Send</button></p>
                 </form>
             </div>
         </div>
         <script type="text/javascript">
+            function copyText(event) {
+                navigator.clipboard.writeText(event.srcElement.parentElement.parentElement.previousElementSibling.innerText)
+                event.preventDefault()
+            }
+            function refreshEventListeners() {
+                document.querySelectorAll('.copy-link').forEach((el) => {
+                    el.removeEventListener('click', copyText)
+                    el.addEventListener("click", copyText)
+                })
+            }
             const token = localStorage.getItem('apiToken')
             if (token != undefined && token != "") {
                 document.querySelector('#token').value = token
@@ -173,9 +193,13 @@
                                 ${msg}
                             </p>
                         </div>
+                        <div class="dialogue-message-footer">
+                            <p><a class="copy-link" href="javascript:void(0);">Copy</a></p>
+                        </div>
                     </div>
                     <div style="clear: both;"></div>
                 `
+                refreshEventListeners()
                 var xhr = new XMLHttpRequest();
                 xhr.open("POST", "https://api.openai.com/v1/engines/text-davinci-003/completions", true);
                 xhr.setRequestHeader('Content-Type', 'application/json');
@@ -232,9 +256,13 @@
                                         ${data.choices[0].text.trim().replace(/\n\n/g, "<br/><br/>").replace(/\n/g, "<br/><br/>").replace(/\r\r/g, "<br/>")}
                                     </p>
                                 </div>
+                                <div class="dialogue-message-footer">
+                                    <p><a class="copy-link" href="javascript:void(0);">Copy</a></p>
+                                </div>
                             </div>
                             <div style="clear: both;"></div>
                         `
+                        refreshEventListeners()
                     }         
                 }
                 document.querySelector('#text-input').value = ""
@@ -250,7 +278,6 @@
                 e.preventDefault()
                 sendMessage(document.querySelector('#text-input').value)
             })
-
             document.querySelector('#token').addEventListener("change", (e) => {
                 const apiToken = document.querySelector('#token')
                 if (apiToken) {
