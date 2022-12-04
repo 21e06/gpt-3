@@ -1,0 +1,136 @@
+body {
+    font-family: arial;
+    word-wrap:break-word;
+}
+
+#conversation {
+    padding: 25px;
+}
+
+#conversation-footer {
+    margin-top: 10px;
+}
+
+#conversation-body {
+    width: 90%;
+    padding: 15px;
+    min-height: 24px;
+    margin: 0px auto;
+}
+
+#text-input {
+    width: 75%;
+    margin: 10px auto;
+    font-family: arial;
+    font-size: 24px;
+    padding: 10px;
+}
+
+button {
+    border: 1px solid #bbb;
+    border-radius: 15px;
+    background-color: #fff;
+}
+
+button:hover {
+    background-color: #bbb;
+}
+
+textarea {
+    padding: 10px;
+}
+
+input {
+    width: 75%;
+    font-size: 16px;
+    padding: 10px;
+    margin: 0px auto;
+    border: 1px solid #bbb;
+    border-radius: 15px;
+}
+
+button {
+    font-size: 32px;
+    padding: 10px 20px;
+}
+
+.dialogue-message-header {
+    text-align: center;
+    font-weight: bold;
+}
+
+.dialogue-message-body {
+    padding: 10px 15px;
+    font-size: 18px;
+}
+
+.dialogue-message-yours {
+    min-width: 200px;
+    max-width: 40%;
+    min-height: 64px;
+    float: left;
+    font-family: Verdana;
+}
+
+.dialogue-message-yours .dialogue-message-body {
+    border-radius: 60px;
+    border-bottom-left-radius: 0px;
+    background-color: #9DD;
+    padding: 25px 35px;
+    line-height: 26px;
+}
+
+.dialogue-message-yours .dialogue-message-header {
+    padding: 5px 0px;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    line-height: 2px;
+    font-family: verdana;
+}
+
+.dialogue-message-error {
+    clear: both;
+    background-color: #D77;
+    margin: 25px auto;
+    min-width: 200px;
+    max-width: 40%;
+    min-height: 64px;
+    padding: 25px;
+    font-family: verdana;
+    font-weight: bold;
+    border-radius: 60px;
+    
+}
+
+.dialogue-message-gpt3 {
+    margin-top: 15px;
+    min-width: 200px;
+    max-width: 40%;
+    float: right;
+}
+
+.dialogue-message-gpt3 .dialogue-message-body {
+    border-radius: 60px;
+    border-bottom-right-radius: 0px;
+    background-color: #8D9;
+    padding: 25px 35px;
+    line-height: 26px;
+    font-family: verdana;
+}
+
+.dialogue-message-gpt3 .dialogue-message-header {
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    line-height: 2px;
+    font-family: verdana;
+}
+
+.dialogue-message-yours .copy-link {
+    float: left;
+    margin: auto 25px;
+}
+
+.dialogue-message-gpt3 .copy-link {
+    float: right;
+    margin: auto 25px;
+}
